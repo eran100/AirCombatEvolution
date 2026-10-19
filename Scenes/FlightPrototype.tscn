@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/PlayerAircraft.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://Scenes/TestEnvironment.tscn" id="2_environment"]
+[ext_resource type="Script" path="res://Scripts/follow_camera.gd" id="3_camera"]
+
+[sub_resource type="Environment" id="Environment_daylight"]
+background_mode = 1
+background_color = Color(0.57, 0.72, 0.79, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.77, 0.83, 0.88, 1)
+ambient_light_energy = 0.65
+tonemap_mode = 0
+
+[sub_resource type="StyleBoxFlat" id="Style_instructions"]
+bg_color = Color(0.055, 0.075, 0.065, 0.85)
+content_margin_left = 16.0
+content_margin_top = 10.0
+content_margin_right = 16.0
+content_margin_bottom = 10.0
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_left = 5
+corner_radius_bottom_right = 5
+
+[node name="FlightPrototype" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_daylight")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-55, -30, 0)
+light_color = Color(1, 0.92, 0.77, 1)
+light_energy = 1.2
+shadow_enabled = true
+directional_shadow_max_distance = 200.0
+
+[node name="TestEnvironment" parent="." instance=ExtResource("2_environment")]
+
+[node name="PlayerAircraft" parent="." node_paths=PackedStringArray("steering_camera") instance=ExtResource("1_player")]
+position = Vector3(0, 12, 0)
+steering_camera = NodePath("../FollowCamera/Camera3D")
+
+[node name="FollowCamera" type="Node3D" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("3_camera")
+target = NodePath("../PlayerAircraft")
+
+[node name="Camera3D" type="Camera3D" parent="FollowCamera"]
+position = Vector3(0, 58, 42)
+rotation_degrees = Vector3(-54.0903, 0, 0)
+projection = 1
+current = true
+size = 64.0
+near = 0.1
+far = 1000.0
+
+[node name="ControlInstructions" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="PanelContainer" parent="ControlInstructions"]
+offset_left = 20.0
+offset_top = 20.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Style_instructions")
+
+[node name="Label" type="Label" parent="ControlInstructions/Panel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.98, 0.94, 0.82, 1)
+theme_override_font_sizes/font_size = 20
+text = "WWI · FLIGHT PROTOTYPE\nSteer: Left stick / WASD / Arrow keys\nRelease to hold heading · Fixed altitude"

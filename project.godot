@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Air Combat Evolution"
+run/main_scene="res://Scenes/FlightPrototype.tscn"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
 
@@ -20,6 +21,25 @@ window/size/viewport_width=1280
 window/size/viewport_height=800
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[input]
+
+steer_left={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":65), Object(InputEventKey,"physical_keycode":4194319), Object(InputEventJoypadMotion,"axis":0,"axis_value":-1.0)]
+}
+steer_right={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":68), Object(InputEventKey,"physical_keycode":4194321), Object(InputEventJoypadMotion,"axis":0,"axis_value":1.0)]
+}
+steer_up={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":87), Object(InputEventKey,"physical_keycode":4194320), Object(InputEventJoypadMotion,"axis":1,"axis_value":-1.0)]
+}
+steer_down={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":83), Object(InputEventKey,"physical_keycode":4194322), Object(InputEventJoypadMotion,"axis":1,"axis_value":1.0)]
+}
 
 [physics]
 

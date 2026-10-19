@@ -1,0 +1,147 @@
+[gd_scene load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://Scripts/player_flight.gd" id="1_flight"]
+[ext_resource type="Script" path="res://Scripts/aircraft_visual.gd" id="2_visual"]
+
+[sub_resource type="StandardMaterial3D" id="Material_canvas"]
+albedo_color = Color(0.89, 0.72, 0.40, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="Material_red"]
+albedo_color = Color(0.64, 0.12, 0.075, 1)
+roughness = 0.75
+
+[sub_resource type="StandardMaterial3D" id="Material_dark"]
+albedo_color = Color(0.095, 0.075, 0.06, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Material_metal"]
+albedo_color = Color(0.3, 0.32, 0.31, 1)
+metallic = 0.4
+roughness = 0.7
+
+[sub_resource type="CylinderMesh" id="Mesh_fuselage"]
+material = SubResource("Material_red")
+top_radius = 0.22
+bottom_radius = 0.48
+height = 4.2
+radial_segments = 6
+
+[sub_resource type="BoxMesh" id="Mesh_wing"]
+material = SubResource("Material_canvas")
+size = Vector3(7.2, 0.14, 1.35)
+
+[sub_resource type="BoxMesh" id="Mesh_tail"]
+material = SubResource("Material_canvas")
+size = Vector3(2.6, 0.12, 0.8)
+
+[sub_resource type="BoxMesh" id="Mesh_fin"]
+material = SubResource("Material_red")
+size = Vector3(0.13, 0.85, 0.85)
+
+[sub_resource type="BoxMesh" id="Mesh_strut"]
+material = SubResource("Material_dark")
+size = Vector3(0.08, 1.35, 0.08)
+
+[sub_resource type="BoxMesh" id="Mesh_propeller"]
+material = SubResource("Material_dark")
+size = Vector3(2.2, 0.17, 0.09)
+
+[sub_resource type="SphereMesh" id="Mesh_hub"]
+material = SubResource("Material_metal")
+radius = 0.23
+height = 0.46
+radial_segments = 8
+rings = 4
+
+[sub_resource type="BoxMesh" id="Mesh_cockpit"]
+material = SubResource("Material_dark")
+size = Vector3(0.5, 0.1, 0.65)
+
+[sub_resource type="CylinderMesh" id="Mesh_wheel"]
+material = SubResource("Material_dark")
+top_radius = 0.28
+bottom_radius = 0.28
+height = 0.15
+radial_segments = 10
+
+[sub_resource type="BoxMesh" id="Mesh_axle"]
+material = SubResource("Material_metal")
+size = Vector3(1.6, 0.1, 0.1)
+
+[node name="PlayerAircraft" type="Node3D"]
+script = ExtResource("1_flight")
+
+[node name="AircraftVisual" type="Node3D" parent="."]
+script = ExtResource("2_visual")
+
+[node name="Fuselage" type="MeshInstance3D" parent="AircraftVisual"]
+rotation_degrees = Vector3(90, 0, 0)
+mesh = SubResource("Mesh_fuselage")
+
+[node name="UpperWing" type="MeshInstance3D" parent="AircraftVisual"]
+position = Vector3(0, 1.2, -0.55)
+mesh = SubResource("Mesh_wing")
+
+[node name="LowerWing" type="MeshInstance3D" parent="AircraftVisual"]
+position = Vector3(0, -0.15, -0.4)
+mesh = SubResource("Mesh_wing")
+
+[node name="Tail" type="MeshInstance3D" parent="AircraftVisual"]
+position = Vector3(0, 0.1, 1.8)
+mesh = SubResource("Mesh_tail")
+
+[node name="TailFin" type="MeshInstance3D" parent="AircraftVisual"]
+position = Vector3(0, 0.5, 1.8)
+mesh = SubResource("Mesh_fin")
+
+[node name="LeftFrontStrut" type="MeshInstance3D" parent="AircraftVisual"]
+position = Vector3(-2.7, 0.525, -1.0)
+mesh = SubResource("Mesh_strut")
+
+[node name="LeftRearStrut" type="MeshInstance3D" parent="AircraftVisual"]
+position = Vector3(-2.7, 0.525, -0.1)
+mesh = SubResource("Mesh_strut")
+
+[node name="RightFrontStrut" type="MeshInstance3D" parent="AircraftVisual"]
+position = Vector3(2.7, 0.525, -1.0)
+mesh = SubResource("Mesh_strut")
+
+[node name="RightRearStrut" type="MeshInstance3D" parent="AircraftVisual"]
+position = Vector3(2.7, 0.525, -0.1)
+mesh = SubResource("Mesh_strut")
+
+[node name="LeftCabaneStrut" type="MeshInstance3D" parent="AircraftVisual"]
+position = Vector3(-0.35, 0.525, -0.7)
+mesh = SubResource("Mesh_strut")
+
+[node name="RightCabaneStrut" type="MeshInstance3D" parent="AircraftVisual"]
+position = Vector3(0.35, 0.525, -0.7)
+mesh = SubResource("Mesh_strut")
+
+[node name="Cockpit" type="MeshInstance3D" parent="AircraftVisual"]
+position = Vector3(0, 0.39, 0.65)
+mesh = SubResource("Mesh_cockpit")
+
+[node name="Propeller" type="Node3D" parent="AircraftVisual"]
+position = Vector3(0, 0, -2.2)
+
+[node name="Blades" type="MeshInstance3D" parent="AircraftVisual/Propeller"]
+mesh = SubResource("Mesh_propeller")
+
+[node name="Hub" type="MeshInstance3D" parent="AircraftVisual/Propeller"]
+mesh = SubResource("Mesh_hub")
+
+[node name="LandingAxle" type="MeshInstance3D" parent="AircraftVisual"]
+position = Vector3(0, -0.75, -0.75)
+mesh = SubResource("Mesh_axle")
+
+[node name="LeftWheel" type="MeshInstance3D" parent="AircraftVisual"]
+position = Vector3(-0.75, -0.8, -0.75)
+rotation_degrees = Vector3(0, 0, 90)
+mesh = SubResource("Mesh_wheel")
+
+[node name="RightWheel" type="MeshInstance3D" parent="AircraftVisual"]
+position = Vector3(0.75, -0.8, -0.75)
+rotation_degrees = Vector3(0, 0, 90)
+mesh = SubResource("Mesh_wheel")
